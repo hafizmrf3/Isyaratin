@@ -1,0 +1,60 @@
+{% extends 'mycollections/base.html' %}
+{% block title %}Tambah Huruf Baru{% endblock %}
+{% block signlanguages_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Left signlanguage Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                        <a href="{% url 'mycollections:detail' signlanguage.id %}">
+                            {% if signlanguage.logo %}
+                                <img src="{{ signlanguage.logo.url }}" class="img-responsive">
+                            {% else %}
+                                <h3>No image to display</h3>
+                            {% endif %}
+                        </a>
+                    <h2>{{ signlanguage.name }} </h2>
+                    <p>{{ signlanguage.website }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Song Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation"><a href="{% url 'mycollections:detail' signlanguage.id %}">Tampilkan Semua Huruf</a></li>
+                <li role="presentation" class="active"><a href="{% url 'mycollections:create_huruf' signlanguage.id %}">Tambah Huruf Baru</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="page-title">Tambah Huruf Baru</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="signlanguage" value="{{ signlanguage }}">
+                        {% include 'mycollections/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

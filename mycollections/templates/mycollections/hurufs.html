@@ -1,0 +1,62 @@
+{% extends 'mycollections/base.html' %}
+{% block title %}Semua Huruf{% endblock %}
+{% block hurufs_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" {% if filter_by == 'all' %}class="active"{% endif %}><a href="{% url 'mycollections:hurufs' 'all' %}">View All</a></li>
+                <li role="presentation" {% if filter_by == 'favorites' %}class="active"{% endif %}><a href="{% url 'mycollections:hurufs' 'favorites' %}">Favorites</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Huruf</th>
+                    
+                                <th>Cover</th>
+                                <th>SignLanguage</th>
+                              
+                                <th>Favorite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for huruf in huruf_list %}
+                                <tr>
+                                    <td>{{ huruf.huruf }}</td>
+                                    
+                                    <td>
+                                        <a href="{% url 'mycollections:detail' huruf.signlanguage.id %}">
+                                            <img src="{{ huruf.signlanguage.logo.url }}" class="img-responsive" style="width: 20px; float: left; margin-right: 10px;" />
+                                        </a>
+                                        <a href="{% url 'mycollections:detail' huruf.signlanguage.id %}"></a>
+                                    </td>
+                                    <td>{{ huruf.signlanguage.name}}</td>
+                                    
+                                    <td>
+                                        <a href="{% url 'mycollections:favorite' huruf.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if huruf.is_favorite %}active{% endif %}"></span></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
